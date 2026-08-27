@@ -1,20 +1,21 @@
 # SQL DDL & DML: Defining and Manipulating Data
 
-Notes from Data With Baraa SQL course — Module: DDL & DML
+Notes from Data With Baraa SQL course, Module: DDL & DML
 
 ## The Big Picture: DDL vs DML
 
 SQL commands are grouped into categories based on what they do:
 
-- **DDL (Data Definition Language)** — defines or changes the
-  *structure* of the database: creating tables, adding/removing
-  columns, deleting tables entirely. DDL affects the *shape* of the
-  data, not the data itself.
-- **DML (Data Manipulation Language)** — works with the *data inside*
-  tables: adding rows, changing values, removing rows. DML doesn't
-  touch the structure — it just changes what's stored in it.
+- **DDL (Data Definition Language)**: defines or changes the
+  *structure* of the database, such as creating tables, adding or
+  removing columns, or deleting tables entirely. DDL affects the
+  shape of the data, not the data itself.
+- **DML (Data Manipulation Language)**: works with the data inside
+  tables, such as adding rows, changing values, or removing rows.
+  DML doesn't touch the structure; it just changes what's stored in
+  it.
 
-A simple way to remember it: DDL builds the container, DML fills or
+A simple way to remember it: DDL builds the container. DML fills or
 empties it.
 
 ---
@@ -36,12 +37,12 @@ CREATE TABLE persons (
 ```
 
 Key pieces:
-- `INT`, `VARCHAR(n)`, `DATE` — data types that define what kind of
-  value each column can hold (`VARCHAR(50)` means text up to 50
-  characters)
-- `NOT NULL` — a constraint that means this column can't be left
-  empty; every row must have a value here
-- `CONSTRAINT pk_persons PRIMARY KEY (id)` — sets `id` as the
+- `INT`, `VARCHAR(n)`, `DATE`: data types that define what kind of
+  value each column can hold. `VARCHAR(50)` means text up to 50
+  characters.
+- `NOT NULL`: a constraint meaning this column can't be left empty;
+  every row must have a value here.
+- `CONSTRAINT pk_persons PRIMARY KEY (id)`: sets `id` as the
   **primary key**, meaning every value in that column must be unique
   and identifies each row. A table can only have one primary key.
 
@@ -50,8 +51,8 @@ be empty (`NULL`).
 
 ### ALTER TABLE
 
-Changes the structure of a table that already exists — without
-having to drop and recreate it.
+Changes the structure of a table that already exists, without having
+to drop and recreate it.
 
 **Adding a column:**
 ```sql
@@ -65,20 +66,20 @@ ALTER TABLE persons
 DROP COLUMN phone
 ```
 
-`ALTER` is used any time the table's *shape* needs to change after
-it's already in use — for example, if a new piece of information
-needs tracking that the original design didn't include.
+`ALTER` is used any time the table's shape needs to change after it's
+already in use, for example if a new piece of information needs
+tracking that the original design didn't include.
 
 ### DROP TABLE
 
-Deletes an entire table — structure and all data inside it — 
+Deletes an entire table, structure and all data inside it,
 permanently.
 
 ```sql
 DROP TABLE persons
 ```
 
-This is different from deleting *rows* (that's DML, see `DELETE`
+This is different from deleting rows (that's DML, see `DELETE`
 below). `DROP TABLE` removes the table itself; querying it afterward
 would return an error, because it no longer exists.
 
@@ -98,14 +99,14 @@ VALUES
 ```
 
 - Column names in `INSERT INTO (...)` tell SQL which columns you're
-  providing values for, and in what order
+  providing values for, and in what order.
 - Multiple rows can be inserted in one statement by separating value
-  sets with commas
+  sets with commas.
 - `NULL` can be used for a column when you don't have a value for it
-  yet (as long as the column allows `NULL` — i.e. isn't `NOT NULL`)
+  yet, as long as the column allows `NULL` (isn't `NOT NULL`).
 
-You don't have to provide every column — if you leave one out, and
-it allows `NULL`, it's just left empty:
+You don't have to provide every column. If you leave one out, and it
+allows `NULL`, it's just left empty:
 
 ```sql
 INSERT INTO customers (id, first_name)
@@ -130,7 +131,7 @@ FROM customers
 
 This reads `id` and `first_name` from `customers`, and fills
 `birth_date` with `NULL` and `phone` with the literal text
-`'Unknown'` for every row copied over — useful for migrating or
+`'Unknown'` for every row copied over. Useful for migrating or
 seeding data from one table into another with a different structure.
 
 ### UPDATE
@@ -144,8 +145,8 @@ WHERE id = 6
 ```
 
 - `SET` specifies which column(s) to change and what to change them
-  to
-- `WHERE` specifies *which rows* to apply the change to
+  to.
+- `WHERE` specifies which rows to apply the change to.
 
 **This is critical: if you forget the `WHERE` clause, the update
 applies to every single row in the table.** Always double check the
@@ -161,7 +162,7 @@ SET
 WHERE id = 10
 ```
 
-`WHERE` conditions aren't limited to exact matches — they can also
+`WHERE` conditions aren't limited to exact matches. They can also
 target rows based on a condition like being empty:
 
 ```sql
@@ -171,8 +172,8 @@ WHERE score IS NULL
 ```
 
 (Note: `IS NULL` is used instead of `= NULL`, because `NULL`
-represents "unknown/absent," not a comparable value — SQL requires
-the special `IS NULL` / `IS NOT NULL` syntax to check for it.)
+represents "unknown/absent," not a comparable value. SQL requires the
+special `IS NULL` / `IS NOT NULL` syntax to check for it.)
 
 ### DELETE FROM
 
@@ -183,11 +184,11 @@ DELETE FROM customers
 WHERE id > 5
 ```
 
-Like `UPDATE`, the `WHERE` clause is what limits the damage — leaving
+Like `UPDATE`, the `WHERE` clause is what limits the damage. Leaving
 it out deletes every row in the table, though the table itself still
 exists afterward (empty, but present).
 
-### DELETE vs TRUNCATE vs DROP — the key distinction
+### DELETE vs TRUNCATE vs DROP: the key distinction
 
 These three all "remove" something, but they're very different:
 
@@ -203,24 +204,24 @@ TRUNCATE TABLE persons
 ```
 
 `TRUNCATE` is a fast way to empty a table completely when you don't
-need to filter which rows go — it's DML-adjacent, but conceptually
-sits between `DELETE` (row-level, DML) and `DROP` (structural, DDL)
-since it clears everything without removing the table itself.
+need to filter which rows go. It sits between `DELETE` (row level,
+DML) and `DROP` (structural, DDL) since it clears everything without
+removing the table itself.
 
 ---
 
 ## Key Takeaways
 
-- DDL changes structure (`CREATE`, `ALTER`, `DROP`); DML changes data
-  (`INSERT`, `UPDATE`, `DELETE`)
+- DDL changes structure (`CREATE`, `ALTER`, `DROP`). DML changes data
+  (`INSERT`, `UPDATE`, `DELETE`).
 - `NOT NULL` and `PRIMARY KEY` are constraints set at table creation
-  to enforce data integrity
+  to enforce data integrity.
 - `INSERT INTO ... SELECT` copies data from one table into another
-  without manual retyping
+  without manual retyping.
 - **Always check the `WHERE` clause before running `UPDATE` or
-  `DELETE`** — missing it means the change applies to the entire
-  table
-- `DELETE` (row-level, filterable) vs `TRUNCATE` (clears all rows,
+  `DELETE`.** Missing it means the change applies to the entire
+  table.
+- `DELETE` (row level, filterable) vs `TRUNCATE` (clears all rows,
   keeps table) vs `DROP` (removes the table entirely) are three
-  different levels of "removal" — know which one a task actually
-  calls for.
+  different levels of removal. Know which one a task actually calls
+  for.
