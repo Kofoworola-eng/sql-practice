@@ -1,2 +1,2 @@
 # sql-practice
-SQL exercises and notes, organized by topic, From basics to advanced.
+SQL exercises and notes, organized by topic, from basics to advanced.
