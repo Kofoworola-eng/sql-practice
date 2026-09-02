@@ -1,7 +1,7 @@
 # SQL Joins: Combining Data from Multiple Tables
 
 Notes from Data With Baraa SQL course, Module: SQL Joins
-Status: In progress. Covered so far: INNER JOIN, LEFT JOIN, RIGHT JOIN, FULL JOIN.
+Status: In progress. Covered so far: NO JOIN, INNER JOIN, LEFT JOIN, RIGHT JOIN, FULL JOIN.
 Still to come: LEFT ANTI JOIN, RIGHT ANTI JOIN, FULL ANTI JOIN, CROSS JOIN, choosing the right join, multiple table joins.
 
 ## What is Data Combining?
@@ -170,7 +170,7 @@ FULL JOIN customers AS c
     ON c.id = o.customer_id;
 ```
 
-This is the most inclusive of the four joins covered so far. Every
+This is the most inclusive of the joins covered so far. Every
 customer appears, whether or not they have an order. Every order
 appears, whether or not it has a matching customer. Where a match
 exists, the row is combined normally. Where no match exists on one
@@ -180,18 +180,23 @@ side, that side's columns are filled with `NULL`.
 
 | Join type | Customers with no orders | Orders with no customer |
 |---|---|---|
+| NO JOIN | shown separately, not combined | shown separately, not combined |
 | INNER JOIN | excluded | excluded |
 | LEFT JOIN (customers first) | included, NULLs for order columns | excluded |
 | RIGHT JOIN / reordered LEFT JOIN | excluded | included, NULLs for customer columns |
 | FULL JOIN | included, NULLs for order columns | included, NULLs for customer columns |
 
-The pattern to hold onto: `INNER JOIN` keeps only the overlap.
-`LEFT JOIN` keeps everything on the left no matter what. `RIGHT JOIN`
-keeps everything on the right no matter what. `FULL JOIN` keeps
-everything from both sides no matter what.
+The pattern to hold onto: without a join, the tables are not related
+to each other at all. `INNER JOIN` keeps only the overlap. `LEFT JOIN`
+keeps everything on the left no matter what. `RIGHT JOIN` keeps
+everything on the right no matter what. `FULL JOIN` keeps everything
+from both sides no matter what.
 
 ## Key Takeaways So Far
 
+- Without a join, querying two tables just gives two separate,
+  unrelated result sets. A join is what actually connects the data
+  from both tables into one combined result.
 - A join combines rows from two tables based on a matching column,
   specified in the `ON` clause.
 - Table aliases (`AS c`, `AS o`) make queries with multiple tables
