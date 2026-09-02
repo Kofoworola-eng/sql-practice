@@ -37,7 +37,7 @@ especially useful in joins, since both tables might have columns with
 the same name (like `id`), and the alias makes it clear which table a
 column is coming from.
 
-## No Join (Retrieving Separately)
+## NO JOIN (Retrieving Separately)
 
 Before combining data, it is worth seeing what happens without a
 join. You can query two tables separately, but you get two separate
